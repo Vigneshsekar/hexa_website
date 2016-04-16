@@ -1,6 +1,85 @@
 <?php
 class Users extends CI_Controller{
 
+  function __construct()
+   {
+       // this is your constructor
+       parent::__construct();
+       $this->load->helper('form');
+       $this->load->helper('url');
+       $this->load->helper('url_helper');
+   }
+
+  function register() {
+
+    if(!isset($_SESSION['is_loggedin']) || !$_SESSION['is_loggedin']){
+        if($_POST)
+        {
+        $phone_no= $this-> input -> post('phone_no');
+        $this->load->model('user');
+
+        $check_num=$this->user->check_num($phone_no);
+
+        if($check_num){
+          $_SESSION['num_check']=1;
+          redirect(base_url('index.php/users/register2'));
+        }
+        else{
+              $_SESSION['num_check']=0;
+              $this -> load -> helper('form');
+              $data ['title'] = 'Register';
+              $this -> load -> view ('user/register');
+             }
+        }
+        else{
+              $_SESSION['num_check']=0;
+              $this -> load -> helper('form');
+              $data ['title'] = 'Register';
+              $this -> load -> view ('user/register');
+        }
+    }
+  }
+  function register2(){
+
+      if(isset($_SESSION['num_check']) && $_SESSION['num_check']==1)
+      {
+        if ($_POST)
+        {
+          $userdata= array(
+          'name'=>$this-> input ->post('name'),
+          'email'=>$this -> input -> post('email'),
+          'password'=>"password",
+          'is_new' =>1,
+          'u_level'=>1,
+          'acc_bal'=>0
+          );
+          $this->load->model('user');
+          $phone_no= $this-> input ->post('phone_no');
+          $val=$this-> user ->register_user($userdata,$phone_no);
+
+          if($val['error'] == false){
+
+              $_SESSION['num_check']=0;
+              redirect(base_url().'index.php/users/login');
+          }
+          else{
+            $this -> load -> helper('form');
+
+            $data ['message'] = $val ['error_message'];
+            $this -> load -> view ('user/register2');
+          }
+        }
+        else{
+              $this -> load -> helper('form');
+              $data ['title'] = 'Register';
+              $this -> load -> view ('user/register2');
+        }
+    }
+    else{
+      redirect('users/register');
+    }
+}
+
   function login()
   {
     if (!isset($_SESSION['is_loggedin']) || !$_SESSION['is_loggedin']  )
@@ -20,39 +99,37 @@ class Users extends CI_Controller{
         {
           $data['error'] = 1;
           $_SESSION['is_loggedin'] = FALSE;
-          //$this -> load -> view ('templates/header', $data);
           $this -> load -> view ('user/login', $data);
-          //$this -> load -> view ('templates/footer');
         }
 
         else
         {
-          $_SESSION['userID'] = $user['house_no'];
-          $_SESSION['ulevel'] = $user['u_level'];
+          $_SESSION['num'] = $user['phone_no'];
+          $_SESSION['acc_bal'] = $user['acc_bal'];
           $_SESSION['is_loggedin'] = TRUE;
           $_SESSION['first_login'] = $user['is_new'];
           redirect(base_url());
         }
-
       }
       else
       {
-        //$this -> load -> view ('templates/header', $data);
         $this -> load -> view ('user/login', $data);
-        //$this -> load -> view ('templates/footer');
       }
-
     }
 
     else
     {
-
       $data['title'] = 'Logged In';
-      //$this -> load -> view ('templates/header', $data);
       $this -> load -> view ('pages/home', $data);
-      //$this -> load -> view ('templates/footer');
     }
 
+ }
+
+ function logout ()
+ {
+   $data['title'] = 'logged out';
+   $this -> session -> sess_destroy();
+   redirect (base_url());
  }
 }
 ?>
