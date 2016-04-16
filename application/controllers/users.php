@@ -37,6 +37,8 @@ class Users extends CI_Controller{
               $data ['title'] = 'Register';
               $this -> load -> view ('user/register');
         }
+    }else{
+      redirect(base_url());
     }
   }
   function register2(){
@@ -64,7 +66,6 @@ class Users extends CI_Controller{
           }
           else{
             $this -> load -> helper('form');
-
             $data ['message'] = $val ['error_message'];
             $this -> load -> view ('user/register2');
           }
@@ -120,11 +121,40 @@ class Users extends CI_Controller{
     else
     {
       $data['title'] = 'Logged In';
-      $this -> load -> view ('pages/home', $data);
+      redirect(base_url());
     }
 
  }
+ function rec_trans(){
 
+ }
+ function c_fund_transfer(){
+   if(isset($_SESSION['is_loggedin']) || $_SESSION['is_loggedin']){
+     if($_POST){
+       $f_num= $this->input->post('friend_number');
+       $amt_transfer= $this -> input -> post('amount_transfer');
+       $u_number=$_SESSION['num'];
+
+       $this->load->model('user');
+       $result= $this->user->m_fund_transfer($f_num,$amt_transfer,$u_number);
+
+       if($result){
+          $data['trans_status']="SUCCESS";
+          $this->load->view('user/c_fund_transfer',$data);
+       }else{
+          $data['trans_status']="FAILURE";
+          $this->load->view('user/c_fund_transfer',$data);
+       }
+
+     }else{
+           $this -> load -> helper('form');
+           $data ['title'] = 'Fund Transfer';
+           $this -> load -> view ('user/c_fund_transfer');
+     }
+   }else{
+     redirect(base_url().'index.php/users/login');
+   }
+ }
  function logout ()
  {
    $data['title'] = 'logged out';

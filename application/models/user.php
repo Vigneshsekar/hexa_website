@@ -24,8 +24,7 @@ class User extends CI_Model
     }
   }
   function check_num($number){
-      //$query= $this-> db -> select ('phone_no','is_new') -> from('users') -> where($number);
-      //$is_new_check=$query -> first_row('array')['is_new'];
+
       $where = array(
         'phone_no' => $number
       );
@@ -53,6 +52,54 @@ class User extends CI_Model
     if ($password1 == $password)
       return $query -> first_row('array');
 
+  }
+  function m_fund_transfer($f_num,$amt_transfer,$u_num){
+
+    $where = array(
+      'phone_no' => $u_num
+    );
+
+    $this -> db -> select () -> from('users') -> where ($where);
+    $query = $this-> db ->get();
+
+    $amt_eva= $query -> first_row('array')['acc_bal'];
+    $amt_deduct=$amt_eva-$amt_transfer;
+
+    $userdata= array(
+      'acc_bal'=> $amt_deduct
+    );
+
+    $this->db->where('phone_no', $u_num);
+    $res1=$this-> db ->update('users', $userdata);
+
+    if($res1){
+      $_SESSION['acc_bal']=$amt_deduct;
+    }else{
+      $_SESSION['acc_bal']=$amt_eva;
+      return FALSE;
+    }
+
+    $where2= array(
+      'phone_no' => $f_num
+    );
+    $this-> db -> select() -> from('users') -> where($where2);
+    $query1= $this -> db ->get();
+
+    $amt_neva= $query1-> first_row('array')['acc_bal'];
+    $amt_add=$amt_transfer+$amt_neva;
+
+    $userdata1 = array(
+      'acc_bal' => $amt_add
+    );
+
+    $this->db->where('phone_no',$f_num);
+    $res2=$this-> db ->update('users', $userdata1);
+
+    if($res2 && $res1){
+      return TRUE;
+    }else{
+      return FALSE;
+    }
   }
 
 

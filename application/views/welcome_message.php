@@ -2,3 +2,8 @@
 </br>
 
 <h2>Account Balance:<?php echo $acc_bal; ?></h2>
+<a href="./index.php/users/fund_transfer"> Transfer to Other Account </a></br>
+<a href="#"> Transcation Record </a></br>
+<a href="./index.php/users/logout"> Logout </a>
+
+<h1><?php //echo $_SESSION['num']; ?></h1>
