@@ -25,3 +25,4 @@ function isResult(){
 <input type = "submit" name = "submit" value = "Submit"/>
 
 </form>
+<a href="../">Home</a>

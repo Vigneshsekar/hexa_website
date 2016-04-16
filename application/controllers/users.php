@@ -11,14 +11,13 @@ class Users extends CI_Controller{
    }
 
   function register() {
-
     if(!isset($_SESSION['is_loggedin']) || !$_SESSION['is_loggedin']){
         if($_POST)
         {
-        $phone_no= $this-> input -> post('phone_no');
-        $this->load->model('user');
+          $phone_no= $this-> input -> post('phone_no');
+          $this->load->model('user');
 
-        $check_num=$this->user->check_num($phone_no);
+          $check_num=$this->user->check_num($phone_no);
 
         if($check_num){
           $_SESSION['num_check']=1;
@@ -52,8 +51,7 @@ class Users extends CI_Controller{
           'email'=>$this -> input -> post('email'),
           'password'=>"password",
           'is_new' =>1,
-          'u_level'=>1,
-          'acc_bal'=>0
+          'u_level'=>1
           );
           $this->load->model('user');
           $phone_no= $this-> input ->post('phone_no');
