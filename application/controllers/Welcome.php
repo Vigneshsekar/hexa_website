@@ -24,4 +24,17 @@ class Welcome extends CI_Controller {
 				redirect(base_url().'index.php/users/login');
 		}
 	}
+	function readfile(){
+
+		$trans_file = fopen("file/file1.txt","r")or die("Unable to die");
+	  $trans_id=fread($trans_file,filesize("file/file1.txt"));
+	  fclose($trans_file);
+
+		if($trans_id=="Unable to die"){
+			$data['hello']="failes to open";
+		}else{
+			$data['hello']=$trans_id;
+		}
+		$this->load->view('azure',$data);
+	}
 }

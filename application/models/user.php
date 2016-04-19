@@ -102,7 +102,47 @@ class User extends CI_Model
     }
   }
 
+function m_trans_cre($acc_bal,$amt,$ven_id,$f_num)
+{
+  $trans_file = fopen("file/file1.txt","r+")or die("Unable to die");
+  $trans_id=fread($trans_file,filesize("file/file1.txt"));
+  fclose($trans_file);
 
+  $trans_id_new=++$trans_id;
+
+
+  if($trans_id=="Unable to die"){
+    return false;
+  }else{
+    $userdata= array(
+      'trans_id' => $trans_id_new,
+      'trans_type' =>1,
+      'phone_no' => $_SESSION['num'],
+      'f_phone_no' => $f_num,
+      'ven_id'=>$ven_id,
+      'date'=>date("Y/m/d"),
+      'time'=>date("h:i:sa"),
+      'amount'=>$amt,
+      'acc_bal_rem'=>$acc_bal
+    );
+
+    $trans_file1 = fopen("file/file1.txt","w") or die("Unable to die");
+    fwrite($trans_file1,$trans_id_new);
+    fclose($trans_file1);
+
+    $query=$this -> db -> insert('trans',$userdata);
+
+    if($query){
+      return true;
+    }else{
+      return false;
+    }
+
+  }
+
+
+
+}
 
 }
 

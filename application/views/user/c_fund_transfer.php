@@ -9,7 +9,7 @@ function isResult(){
   }else if(ph="FAILURE"){
     alert("Error Occured While Transferring,")
   }else{
-    document.getElementById('test').innerHTML=" ";
+    document.getElementById('test').innerHTML="something Happened..... ";
   }
 
 }
