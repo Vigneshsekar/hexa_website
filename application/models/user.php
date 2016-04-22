@@ -25,20 +25,49 @@ class User extends CI_Model
   }
   function check_num($number){
 
-      $where = array(
+      /*$where = array(
         'phone_no' => $number
       );
 
-      $this -> db -> select () -> from('users') -> where ($where);
+      $query2 = $this -> db -> select () -> from('users') -> where ($where);
       $query = $this -> db -> get ();
-      $is_new_check=$query -> first_row('array')['is_new'];
+      $query1= $query-> first_row('array')['phone_no'];
+      $is_new_check= $query -> first_row('array')['is_new'];
 
-      if($query && $is_new_check==0){
+      if($query2 && $is_new_check==0){
         return true;
       }
       else{
         return false;
+      }*/
+      $where= array(
+        'phone_no'=>$number
+      );
+      $this-> db -> select() -> from('users') -> where($where);
+      $query = $this -> db ->get ();
+      $is_new_check= $query -> first_row('array')['is_new'];
+      $sam = $query -> first_row('array')['phone_no'];
+
+      if($sam && $is_new_check==0){
+        return true;
+      }else{
+        return false;
       }
+  }
+  function check_num2($number){
+    $where= array(
+      'phone_no'=>$number
+    );
+    $this-> db -> select() -> from('users') -> where($where);
+    $query = $this -> db ->get ();
+    $is_new_check= $query -> first_row('array')['is_new'];
+    $sam = $query -> first_row('array')['phone_no'];
+
+    if($sam && $is_new_check==0){
+      return true;
+    }else{
+      return false;
+    }
   }
   function login($phone_number, $password)
   {

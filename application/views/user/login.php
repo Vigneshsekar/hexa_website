@@ -36,7 +36,7 @@
       <?php echo form_open('users/login'); ?>
         <div class="form-group has-feedback">
           <input type="input" name = "phone_number" id="phone_number" class="form-control" placeholder="Number" required>
-          <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+          <span class="glyphicon glyphicon-phone form-control-feedback"></span>
         </div>
         <div class="form-group has-feedback">
           <input type="password" name = "password" id="password"  class="form-control" placeholder="Password" required>
