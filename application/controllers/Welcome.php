@@ -21,7 +21,7 @@ class Welcome extends CI_Controller {
 		}
 		else {
 
-				redirect(base_url().'index.php/users/login');
+				redirect(base_url().'users/login');
 		}
 	}
 	function readfile(){
@@ -36,5 +36,21 @@ class Welcome extends CI_Controller {
 			$data['hello']=$trans_id;
 		}
 		$this->load->view('azure',$data);
+	}
+	function new_num($number){
+		$this-> load-> model('user');
+		$hello=$this-> user -> check_num2($number);
+
+		 if($hello){
+			 echo $hello;
+			 echo "hello";
+		 }
+		 else{
+			 echo "null data";
+		 }
+		 if($hello="NULL"){
+			 echo "NULL DATA";
+		 }
+
 	}
 }

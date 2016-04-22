@@ -21,13 +21,14 @@ class Users extends CI_Controller{
 
         if($check_num){
           $_SESSION['num_check']=1;
-          redirect(base_url('index.php/users/register2'));
+          redirect(base_url().'users/register2');
         }
         else{
               $_SESSION['num_check']=0;
               $this -> load -> helper('form');
               $data ['title'] = 'Register';
-              $this -> load -> view ('user/register');
+              $data['error_register1']="Already Registered or Phone Number Not Found";
+              $this -> load -> view ('user/register',$data);
              }
         }
         else{
@@ -60,7 +61,7 @@ class Users extends CI_Controller{
           if($val['error'] == false){
 
               $_SESSION['num_check']=0;
-              redirect(base_url().'index.php/users/login');
+              redirect(base_url().'users/login');
           }
           else{
             $this -> load -> helper('form');
@@ -156,7 +157,7 @@ class Users extends CI_Controller{
            $this -> load -> view ('user/c_fund_transfer');
      }
    }else{
-     redirect(base_url().'index.php/users/login');
+     redirect(base_url().'users/login');
    }
  }
 
