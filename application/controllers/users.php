@@ -108,6 +108,7 @@ class Users extends CI_Controller{
           $_SESSION['acc_bal'] = $user['acc_bal'];
           $_SESSION['is_loggedin'] = TRUE;
           $_SESSION['first_login'] = $user['is_new'];
+          $_SESSION['name']= $user['name'];
           redirect(base_url());
         }
       }

@@ -24,22 +24,6 @@ class User extends CI_Model
     }
   }
   function check_num($number){
-
-      /*$where = array(
-        'phone_no' => $number
-      );
-
-      $query2 = $this -> db -> select () -> from('users') -> where ($where);
-      $query = $this -> db -> get ();
-      $query1= $query-> first_row('array')['phone_no'];
-      $is_new_check= $query -> first_row('array')['is_new'];
-
-      if($query2 && $is_new_check==0){
-        return true;
-      }
-      else{
-        return false;
-      }*/
       $where= array(
         'phone_no'=>$number
       );
@@ -54,7 +38,7 @@ class User extends CI_Model
         return false;
       }
   }
-  function check_num2($number){
+  /*function check_num2($number){
     $where= array(
       'phone_no'=>$number
     );
@@ -68,7 +52,8 @@ class User extends CI_Model
     }else{
       return false;
     }
-  }
+  }*/
+  
   function login($phone_number, $password)
   {
     $where = array(
